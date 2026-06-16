@@ -1,0 +1,16 @@
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+
+# Node（如果后续加构建工具）
+node_modules/
+npm-debug.log*
+
+# 本地临时
+*.local
