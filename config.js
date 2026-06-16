@@ -22,7 +22,7 @@ var SITE_CONFIG = {
     {
       title: "个人的网站",
       sites: [
-        { name: "奶娃",       url: "https://nw.bifang.shop",   icon: "icons/naiwa.png" },
+        { name: "奶娃",       url: "https://nw.bifang.shop",   icon: "icons/nw.png" },
         { name: "视频的下载",   url: "https://sp.bifang.shop",   icon: "icons/xiaziasp.png" },
         { name: "随机刷视频", url: "https://sjl.bifang.shop",  icon: "icons/ssp.png" },
         { name: "日记",       url: "https://rj.bifang.shop",   icon: "icons/rj.png" },
