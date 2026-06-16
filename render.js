@@ -4,7 +4,11 @@
 (function () {
   "use strict";
 
-  var config = window.SITE_CONFIG;
+  var config = window.SITE_CONFIG || (typeof SITE_CONFIG !== "undefined" ? SITE_CONFIG : null);
+  if (!config) {
+    console.error("[nav] SITE_CONFIG 未加载，请检查 config.js 是否正确引入");
+    return;
+  }
   var grid = document.getElementById("appsGrid");
   var engineSwitch = document.getElementById("engineSwitch");
   var searchForm = document.getElementById("searchForm");
