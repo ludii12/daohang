@@ -55,6 +55,7 @@ var SITE_CONFIG = {
         { name: "ZCode",      url: "https://zcode.z.ai/cn/",        icon: "icons/zhipu-color.png" },
         { name: "Codex",      url: "https://openai.com/codex/",     icon: "icons/codex.png" },
         { name: "Hermes",     url: "https://hermes-studio.ai/",     icon: "icons/hermesagent.png" },
+        { name: "息流",     url: "https://flowus.cn/",     icon: "icons/flowus.png" },
       ],
     },
   ],
