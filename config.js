@@ -56,7 +56,7 @@ var SITE_CONFIG = {
         { name: "Codex",      url: "https://openai.com/codex/",     icon: "icons/codex.png" },
         { name: "Hermes",     url: "https://hermes-studio.ai/",     icon: "icons/hermesagent.png" },
         { name: "息流",     url: "https://flowus.cn/",     icon: "icons/flowus.png" },
-        { name: "时间",     url: "https://time.is/zh/main",     icon: "icons/sj.png" },
+        { name: "时间",     url: "https://clockzone.net/zh-CN/worldclock",     icon: "icons/sj.png" },
       ],
     },
   ],
