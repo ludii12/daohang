@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>我的导航</title>
+  <meta name="description" content="个人常用工具导航" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 顶部搜索框 -->
+  <header class="topbar">
+    <div class="search-wrap">
+      <form id="searchForm" class="search-form" action="https://www.google.com/search" method="get" target="_blank" rel="noopener">
+        <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+          <path fill="currentColor" d="M9.5 3a6.5 6.5 0 1 0 4.03 11.6l5.44 5.43 1.06-1.06-5.43-5.44A6.5 6.5 0 0 0 9.5 3Zm0 1.5a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/>
+        </svg>
+        <input id="searchInput" class="search-input" type="text" name="q" placeholder="搜索或输入网址…" autocomplete="off" />
+      </form>
+      <div class="engine-switch" id="engineSwitch" aria-label="切换搜索引擎"></div>
+    </div>
+  </header>
+
+  <!-- 图标瀑布流主区域 -->
+  <main class="apps-grid" id="appsGrid">
+    <!-- 由 render.js 动态填充 -->
+  </main>
+
+  <!-- 页脚 -->
+  <footer class="footer">
+    <span>Personal Navigation</span>
+    <button id="themeToggle" class="theme-toggle" aria-label="切换主题" title="切换深浅色">
+      <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-5 1 1v3h-2V3l1-1Zm0 17 1 1v3l-1-1-1 1v-3l1-1ZM5 12l1 1H3l1-1 1-1v1Zm17 0-1 1h-3l1-1-1-1h3l1 1ZM6.3 6.3 7.7 7.7 5 5l1.3 1.3Zm11.4 11.4-1.4-1.4L19 19l-1.3-1.3ZM6.3 17.7 7.7 16.3 5 19l1.3-1.3ZM17.7 6.3 16.3 7.7 19 5l-1.3 1.3Z"/></svg>
+      <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
+    </button>
+  </footer>
+
+  <script src="config.js"></script>
+  <script src="render.js"></script>
+</body>
+</html>
