@@ -9,8 +9,21 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <!-- 顶部搜索框 -->
+  <!-- 动态渐变背景色块 -->
+  <div class="bg-blobs" aria-hidden="true">
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+  </div>
+
+  <!-- 顶部：时钟 + 搜索框 -->
   <header class="topbar">
+    <div class="hero">
+      <div class="greeting" id="greeting">你好</div>
+      <div class="clock" id="clock">00:00</div>
+      <div class="clock-date" id="clockDate"></div>
+    </div>
+
     <div class="search-wrap">
       <form id="searchForm" class="search-form" action="https://www.google.com/search" method="get" target="_blank" rel="noopener">
         <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
@@ -29,7 +42,10 @@
 
   <!-- 页脚 -->
   <footer class="footer">
-    <span>Personal Navigation</span>
+    <div class="footer-stats">
+      <span id="siteCount">📊 0 个站点</span>
+      <span id="footerClock">⏱ 00:00</span>
+    </div>
     <button id="themeToggle" class="theme-toggle" aria-label="切换主题" title="切换深浅色">
       <svg class="icon-sun" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10Zm0-5 1 1v3h-2V3l1-1Zm0 17 1 1v3l-1-1-1 1v-3l1-1ZM5 12l1 1H3l1-1 1-1v1Zm17 0-1 1h-3l1-1-1-1h3l1 1ZM6.3 6.3 7.7 7.7 5 5l1.3 1.3Zm11.4 11.4-1.4-1.4L19 19l-1.3-1.3ZM6.3 17.7 7.7 16.3 5 19l1.3-1.3ZM17.7 6.3 16.3 7.7 19 5l-1.3 1.3Z"/></svg>
       <svg class="icon-moon" viewBox="0 0 24 24" width="18" height="18"><path fill="currentColor" d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
