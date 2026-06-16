@@ -35,7 +35,7 @@ var SITE_CONFIG = {
       sites: [
         { name: "Gemini",   url: "https://gemini.google.com/app", icon: "icons/gemini-color.png" },
         { name: "GPT",      url: "https://chatgpt.com",           icon: "icons/openai.png" },
-        { name: "Claude",   url: "https://claude.ai",             icon: "icons/cloudflare-color.png" },
+        { name: "Claude",   url: "https://claude.ai",             icon: "icons/claude-color.png" },
         { name: "DeepSeek", url: "https://chat.deepseek.com",     icon: "icons/deepseek-color.png" },
         { name: "GLM",      url: "https://chat.z.ai",             icon: "icons/zai.png" },
         { name: "MiniMax",  url: "https://www.minimax.io/",       icon: "icons/minimax-color.png" },
