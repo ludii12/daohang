@@ -23,7 +23,7 @@ var SITE_CONFIG = {
       sites: [
         { name: "奶娃",   url: "nw.bifang.shop",   icon: "https://www.picgo.net/image/coqui-color.16xzWu" },
         { name: "视频的下载",     url: "sp.bifang.shop",    icon: "https://www.picgo.net/image/xiaziasp.16xbgl" },
-        { name: "随机刷视频",     url: "sjl.bifang.shop",     icon: "https://www.picgo.net/image/spp.16x25j" },
+        { name: "随机刷视频",     url: "sjl.bifang.shop",     icon: "https://https://origin.picgo.net/2026/06/17/spp729bf6208169b7ea.th.png" },
         { name: "日记",    url: "rj.bifang.shop",  icon: "https://www.picgo.net/image/rj.16xyZY" },
         { name: "计算器",   url: "jsq.bifang.shop",      icon: "https://www.picgo.net/image/jsq.16xXey" },
         { name: "白噪音",  url: "bzy.bifang.shop",  icon: "https://www.picgo.net/image/bzy.16xNWC" },
