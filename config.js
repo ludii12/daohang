@@ -40,7 +40,7 @@ var SITE_CONFIG = {
         { name: "GLM",      url: "https://chat.z.ai",             icon: "icons/zai.png" },
         { name: "MiniMax",  url: "https://www.minimax.io/",       icon: "icons/minimax-color.png" },
         { name: "Kimi",     url: "https://www.kimi.com/",         icon: "icons/kimi.png" },
-        { name: "通义千问", url: "https://chat.qwen.ai",          icon: "icons/qwen-color.png" },
+        { name: "千问", url: "https://chat.qwen.ai",          icon: "icons/qwen-color.png" },
       ],
     },
     {
