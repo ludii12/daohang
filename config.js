@@ -28,6 +28,7 @@ var SITE_CONFIG = {
         { name: "日记",       url: "https://rj.bifang.shop",   icon: "icons/rj.png" },
         { name: "计算器",     url: "https://jsq.bifang.shop",  icon: "icons/jsq.png" },
         { name: "白噪音",     url: "https://bzy.bifang.shop",  icon: "icons/bzy.png" },
+        { name: "翻译",       url: "https://fanyi.baidu.com",       icon: "icons/baidu-color.png" },
       ],
     },
     {
@@ -47,7 +48,6 @@ var SITE_CONFIG = {
     {
       title: "工具",
       sites: [
-        { name: "翻译",       url: "https://fanyi.baidu.com",       icon: "icons/baidu-color.png" },
         { name: "工具箱",       url: "https://toolknit.com/",        icon: "icons/tk.png" },
         { name: "GitHub",     url: "https://github.com/",           icon: "icons/github.png" },
         { name: "Cloudflare", url: "https://dash.cloudflare.com/",  icon: "icons/cloudflare-color.png" },
@@ -58,7 +58,7 @@ var SITE_CONFIG = {
         { name: "Hermes",     url: "https://hermes-studio.ai/",     icon: "icons/hermesagent.png" },
         { name: "息流",     url: "https://flowus.cn/",     icon: "icons/flowus.png" },
         { name: "时间",     url: "https://clockzone.net/zh-CN/worldclock",     icon: "icons/sj.png" },
-        { name: "ttp",     url: "https://www.thetradingpit.com/zh-hans/",     icon: "icons/ttp.svg" },
+        { name: "ttp",     url: "https://www.thetradingpit.com/zh-hans/",     icon: "icons/ttp.png" },
       ],
     },
   ],
