@@ -29,7 +29,7 @@ var SITE_CONFIG = {
     {
       title: "工具",
       sites: [
-        { name: "工具箱", url: "https://toolknit.com/", icon: "icons/tk.png" },
+        { name: "工具箱", url: "https://toolknit.com/", icon: "icons/tk.png", aliases: ["压缩", "pdf", "格式转换", "文字", "音频转换"] },
         { name: "GitHub", url: "https://github.com/", icon: "icons/github.png" },
         { name: "Cloudflare", url: "https://dash.cloudflare.com/", icon: "icons/cloudflare-color.png" },
         { name: "Trae", url: "https://www.trae.cn/", icon: "icons/trae-color.png" },
