@@ -18,7 +18,7 @@
 gml/
 ├── index.html    # 页面结构
 ├── style.css     # 样式（含响应式 + 暗黑模式）
-├── config.js     # ⭐ 网站数据配置（增删改在这里）
+├── config.js     # ⭐ 网站数据配置（增删改在这里）添加关键字：aliases: ["关键词1", "关键词2", "关键词3"]
 ├── render.js     # 渲染逻辑（一般不用动）
 └── README.md
 ```
