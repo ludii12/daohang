@@ -34,10 +34,10 @@ var SITE_CONFIG = {
           url: "https://toolknit.com/",
           icon: "icons/tk.png",
           aliases: [
-            "图片压缩", "图片转换", "二维码", "时间戳", "JSON格式化", "JSON",
-            "Base64", "URL编码", "正则表达式", "颜色转换", "单位换算",
+            "图片", "二维码", "时间戳", "JSON格式化", "JSON",
+            "pdf", "音频", "转换", "颜色转换", "单位",
             "UUID", "MD5", "SHA", "哈希", "加密解密", "Markdown", "Cron",
-            "文字处理", "字数统计", "短链接"
+            "文字", 
           ],
         },
         { name: "GitHub", url: "https://github.com/", icon: "icons/github.png" },
