@@ -26,6 +26,7 @@
   var newSiteUrl = document.getElementById("newSiteUrl");
   var newSiteCategory = document.getElementById("newSiteCategory");
   var newSiteIcon = document.getElementById("newSiteIcon");
+  var newSiteAliases = document.getElementById("newSiteAliases");
   var customSiteList = document.getElementById("customSiteList");
   var syncMessage = document.getElementById("syncMessage");
 
@@ -126,6 +127,19 @@
     return value;
   }
 
+  function normalizeAliases(value) {
+    if (Array.isArray(value)) {
+      return value
+        .map(function (item) { return String(item || "").trim(); })
+        .filter(Boolean);
+    }
+
+    return String(value || "")
+      .split(/[,，、\n]/)
+      .map(function (item) { return item.trim(); })
+      .filter(Boolean);
+  }
+
   function getFirstChar(name) {
     if (!name) return "?";
     return name.trim().charAt(0).toUpperCase();
@@ -159,6 +173,7 @@
           url: normalizeUrl(site.url),
           category: String(site.category).trim(),
           icon: site.icon ? String(site.icon).trim() : "",
+          aliases: normalizeAliases(site.aliases || site.keywords),
         };
       });
   }
@@ -175,6 +190,7 @@
         name: site.name,
         url: site.url,
         icon: site.icon || "",
+        aliases: normalizeAliases(site.aliases),
         customId: site.id,
       });
     });
@@ -200,7 +216,8 @@
           url: site.url,
           icon: site.icon,
           domain: getDomain(site.url),
-          searchText: (site.name + " " + cat.title + " " + getDomain(site.url)).toLowerCase(),
+          aliases: normalizeAliases(site.aliases),
+          searchText: (site.name + " " + cat.title + " " + getDomain(site.url) + " " + normalizeAliases(site.aliases).join(" ")).toLowerCase(),
         });
       });
     });
@@ -587,6 +604,7 @@
         url: normalizeUrl(newSiteUrl.value),
         category: newSiteCategory.value.trim(),
         icon: newSiteIcon.value.trim(),
+        aliases: normalizeAliases(newSiteAliases ? newSiteAliases.value : ""),
       };
 
       if (!site.name || !site.url || !site.category) {

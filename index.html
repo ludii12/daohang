@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>ludii 的导航</title>
   <meta name="description" content="个人常用工具导航" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -89,6 +89,9 @@
 
           <label for="newSiteIcon">图标地址</label>
           <input id="newSiteIcon" type="text" autocomplete="off" placeholder="可留空，自动获取 favicon" />
+
+          <label for="newSiteAliases">搜索关键词</label>
+          <input id="newSiteAliases" type="text" autocomplete="off" placeholder="可选，用逗号分隔，例如 图片压缩, 时间戳" />
 
           <button class="editor-submit" type="submit">添加网站</button>
           <p class="editor-message" id="editorSaveMessage"></p>

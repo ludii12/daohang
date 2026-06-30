@@ -67,6 +67,17 @@ function normalizeUrl(url) {
   return `https://${value}`;
 }
 
+function normalizeAliases(value) {
+  if (Array.isArray(value)) {
+    return value.map((item) => String(item || "").trim()).filter(Boolean);
+  }
+
+  return String(value || "")
+    .split(/[,，、\n]/)
+    .map((item) => item.trim())
+    .filter(Boolean);
+}
+
 function normalizeSites(sites) {
   if (!Array.isArray(sites)) throw new Error("sites 必须是数组");
 
@@ -75,6 +86,7 @@ function normalizeSites(sites) {
     const url = normalizeUrl(site && site.url);
     const category = String(site && site.category ? site.category : "").trim();
     const icon = String(site && site.icon ? site.icon : "").trim();
+    const aliases = normalizeAliases(site && (site.aliases || site.keywords));
     const id = String(site && site.id ? site.id : `site-${Date.now().toString(36)}-${index}`).trim();
 
     if (!name || !url || !category) {
@@ -87,7 +99,7 @@ function normalizeSites(sites) {
       throw new Error(`网址格式不正确：${name}`);
     }
 
-    return { id, name, url, category, icon };
+    return { id, name, url, category, icon, aliases };
   });
 }
 
