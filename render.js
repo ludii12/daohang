@@ -11,6 +11,31 @@
   var engineSwitch = document.getElementById("engineSwitch");
   var searchForm = document.getElementById("searchForm");
   var searchInput = document.getElementById("searchInput");
+  var siteSuggestions = document.getElementById("siteSuggestions");
+  var editEntry = document.getElementById("editEntry");
+  var editorModal = document.getElementById("editorModal");
+  var editorClose = document.getElementById("editorClose");
+  var editorAuth = document.getElementById("editorAuth");
+  var editorPassword = document.getElementById("editorPassword");
+  var editorAuthMessage = document.getElementById("editorAuthMessage");
+  var editorWorkspace = document.getElementById("editorWorkspace");
+  var siteEditorForm = document.getElementById("siteEditorForm");
+  var editorSaveMessage = document.getElementById("editorSaveMessage");
+  var categoryOptions = document.getElementById("categoryOptions");
+  var newSiteName = document.getElementById("newSiteName");
+  var newSiteUrl = document.getElementById("newSiteUrl");
+  var newSiteCategory = document.getElementById("newSiteCategory");
+  var newSiteIcon = document.getElementById("newSiteIcon");
+  var customSiteList = document.getElementById("customSiteList");
+  var syncMessage = document.getElementById("syncMessage");
+
+  var CUSTOM_SITES_KEY = "nav-custom-sites-v1";
+  var SITES_API = "/api/sites";
+  var EDIT_PASSWORD = "12345678";
+  var baseCategories = JSON.parse(JSON.stringify(config.categories || []));
+  var customSites = [];
+  var siteIndex = [];
+  var currentEngine = config.searchEngines[0];
   var backgroundImages = [
     "backgrounds/bg-triangle.png",
     "backgrounds/bg-circles-bright.png",
@@ -94,9 +119,91 @@
     try { return new URL(url).hostname; } catch (e) { return ""; }
   }
 
+  function normalizeUrl(url) {
+    var value = String(url || "").trim();
+    if (!value) return "";
+    if (!/^https?:\/\//i.test(value)) return "https://" + value;
+    return value;
+  }
+
   function getFirstChar(name) {
     if (!name) return "?";
     return name.trim().charAt(0).toUpperCase();
+  }
+
+  function getStoredCustomSites() {
+    try {
+      var raw = localStorage.getItem(CUSTOM_SITES_KEY);
+      var parsed = raw ? JSON.parse(raw) : [];
+      return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+      return [];
+    }
+  }
+
+  function setCustomSites(sites) {
+    customSites = normalizeCustomSites(sites);
+    localStorage.setItem(CUSTOM_SITES_KEY, JSON.stringify(customSites));
+  }
+
+  function normalizeCustomSites(sites) {
+    if (!Array.isArray(sites)) return [];
+    return sites
+      .filter(function (site) {
+        return site && site.name && site.url && site.category;
+      })
+      .map(function (site, index) {
+        return {
+          id: site.id || ("site-" + Date.now().toString(36) + "-" + index),
+          name: String(site.name).trim(),
+          url: normalizeUrl(site.url),
+          category: String(site.category).trim(),
+          icon: site.icon ? String(site.icon).trim() : "",
+        };
+      });
+  }
+
+  function applyCustomSites() {
+    config.categories = JSON.parse(JSON.stringify(baseCategories));
+    customSites.forEach(function (site) {
+      var category = config.categories.find(function (cat) { return cat.title === site.category; });
+      if (!category) {
+        category = { title: site.category, sites: [] };
+        config.categories.push(category);
+      }
+      category.sites.push({
+        name: site.name,
+        url: site.url,
+        icon: site.icon || "",
+        customId: site.id,
+      });
+    });
+  }
+
+  function renderCategoryOptions() {
+    if (!categoryOptions) return;
+    categoryOptions.innerHTML = "";
+    config.categories.forEach(function (cat) {
+      var option = document.createElement("option");
+      option.value = cat.title;
+      categoryOptions.appendChild(option);
+    });
+  }
+
+  function buildSiteIndex() {
+    siteIndex = [];
+    config.categories.forEach(function (cat) {
+      cat.sites.forEach(function (site) {
+        siteIndex.push({
+          category: cat.title,
+          name: site.name,
+          url: site.url,
+          icon: site.icon,
+          domain: getDomain(site.url),
+          searchText: (site.name + " " + cat.title + " " + getDomain(site.url)).toLowerCase(),
+        });
+      });
+    });
   }
 
   function hashColor(str) {
@@ -161,11 +268,34 @@
   function closeOtherMenus(current) {
     document.querySelectorAll(".menu-group.open").forEach(function (group) {
       if (group !== current) {
+        if (group._closeTimer) {
+          clearTimeout(group._closeTimer);
+          group._closeTimer = null;
+        }
         group.classList.remove("open");
         var button = group.querySelector(".menu-trigger");
         if (button) button.setAttribute("aria-expanded", "false");
       }
     });
+  }
+
+  function openMenu(group, button) {
+    if (group._closeTimer) {
+      clearTimeout(group._closeTimer);
+      group._closeTimer = null;
+    }
+    closeOtherMenus(group);
+    group.classList.add("open");
+    button.setAttribute("aria-expanded", "true");
+  }
+
+  function scheduleCloseMenu(group, button) {
+    if (group._closeTimer) clearTimeout(group._closeTimer);
+    group._closeTimer = setTimeout(function () {
+      group.classList.remove("open");
+      button.setAttribute("aria-expanded", "false");
+      group._closeTimer = null;
+    }, 1500);
   }
 
   function renderSiteMenu() {
@@ -214,14 +344,14 @@
 
       button.addEventListener("click", function () {
         var nextOpen = !group.classList.contains("open");
-        closeOtherMenus(group);
-        group.classList.toggle("open", nextOpen);
-        button.setAttribute("aria-expanded", String(nextOpen));
+        if (nextOpen) openMenu(group, button);
+        else scheduleCloseMenu(group, button);
       });
 
-      group.addEventListener("mouseenter", function () {
-        closeOtherMenus(group);
-      });
+      group.addEventListener("mouseenter", function () { openMenu(group, button); });
+      group.addEventListener("mouseleave", function () { scheduleCloseMenu(group, button); });
+      panel.addEventListener("mouseenter", function () { openMenu(group, button); });
+      panel.addEventListener("mouseleave", function () { scheduleCloseMenu(group, button); });
 
       group.appendChild(button);
       group.appendChild(panel);
@@ -232,11 +362,105 @@
     siteMenu.appendChild(frag);
   }
 
-  document.addEventListener("click", function (e) {
-    if (!e.target.closest(".menu-group")) closeOtherMenus(null);
-  });
+  function renderCustomSiteList() {
+    if (!customSiteList) return;
+    customSiteList.innerHTML = "";
 
-  var currentEngine = config.searchEngines[0];
+    if (!customSites.length) {
+      var empty = document.createElement("div");
+      empty.className = "custom-empty";
+      empty.textContent = "还没有自定义网站";
+      customSiteList.appendChild(empty);
+      return;
+    }
+
+    customSites.forEach(function (site) {
+      var row = document.createElement("div");
+      row.className = "custom-site-row";
+
+      var name = document.createElement("span");
+      name.className = "custom-site-name";
+      name.textContent = site.name + " · " + site.category;
+
+      var button = document.createElement("button");
+      button.type = "button";
+      button.textContent = "删除";
+      button.addEventListener("click", function () {
+        var next = customSites.filter(function (item) { return item.id !== site.id; });
+        setCustomSites(next);
+        refreshSites();
+        syncSitesToApi("删除网站：" + site.name);
+      });
+
+      row.appendChild(name);
+      row.appendChild(button);
+      customSiteList.appendChild(row);
+    });
+  }
+
+  function refreshSites() {
+    applyCustomSites();
+    buildSiteIndex();
+    renderSiteMenu();
+    renderCategoryOptions();
+    renderCustomSiteList();
+    renderSuggestions();
+  }
+
+  function getSiteMatches(query) {
+    var q = query.trim().toLowerCase();
+    if (!q) return [];
+    return siteIndex
+      .filter(function (site) { return site.searchText.indexOf(q) >= 0; })
+      .sort(function (a, b) {
+        var an = a.name.toLowerCase();
+        var bn = b.name.toLowerCase();
+        var aStarts = an.indexOf(q) === 0 ? 0 : 1;
+        var bStarts = bn.indexOf(q) === 0 ? 0 : 1;
+        return aStarts - bStarts || an.length - bn.length;
+      })
+      .slice(0, 5);
+  }
+
+  function renderSuggestions() {
+    if (!siteSuggestions) return;
+    var matches = getSiteMatches(searchInput.value);
+    siteSuggestions.innerHTML = "";
+    siteSuggestions.classList.toggle("visible", matches.length > 0);
+
+    matches.forEach(function (site) {
+      var item = document.createElement("button");
+      item.className = "suggestion-item";
+      item.type = "button";
+      item.title = site.url;
+
+      var icon = document.createElement("span");
+      icon.className = "suggestion-icon";
+      icon.style.background = hashColor(site.name);
+
+      var letter = document.createElement("span");
+      letter.className = "site-letter";
+      letter.textContent = getFirstChar(site.name);
+      icon.appendChild(letter);
+      hydrateIcon(icon, site);
+
+      var text = document.createElement("span");
+      text.className = "suggestion-text";
+      text.textContent = site.name;
+
+      var meta = document.createElement("span");
+      meta.className = "suggestion-meta";
+      meta.textContent = site.category;
+
+      item.appendChild(icon);
+      item.appendChild(text);
+      item.appendChild(meta);
+      item.addEventListener("click", function () {
+        window.open(site.url, "_blank", "noopener");
+      });
+      siteSuggestions.appendChild(item);
+    });
+  }
 
   function renderEngines() {
     engineSwitch.innerHTML = "";
@@ -257,10 +481,153 @@
     });
   }
 
+  function setSyncMessage(message) {
+    if (syncMessage) syncMessage.textContent = message || "";
+  }
+
+  function readSitesFromApi() {
+    return fetch(SITES_API, { cache: "no-store" })
+      .then(function (res) {
+        if (!res.ok) throw new Error("云端网站读取失败：" + res.status);
+        return res.json();
+      })
+      .then(function (data) {
+        var sites = Array.isArray(data) ? data : data.sites;
+        return normalizeCustomSites(sites);
+      });
+  }
+
+  function syncSitesToApi(actionText) {
+    var password = editorPassword ? editorPassword.value : "";
+    setSyncMessage("正在同步到 GitHub...");
+
+    return fetch(SITES_API, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        password: password,
+        action: actionText || "更新自定义导航网站",
+        sites: normalizeCustomSites(customSites),
+      }),
+    })
+      .then(function (res) {
+        return res.json().catch(function () { return {}; }).then(function (data) {
+          if (!res.ok) throw new Error(data.message || ("云端同步失败：" + res.status));
+          return data;
+        });
+      })
+      .then(function (data) {
+        if (Array.isArray(data.sites)) setCustomSites(normalizeCustomSites(data.sites));
+        refreshSites();
+        setSyncMessage("已同步到 GitHub");
+        return true;
+      })
+      .catch(function (err) {
+        setSyncMessage("已保存到本机，云端同步失败：" + (err.message || "接口不可用"));
+        return false;
+      });
+  }
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".menu-group")) closeOtherMenus(null);
+  });
+
+  function openEditor() {
+    if (!editorModal) return;
+    editorModal.classList.add("open");
+    editorModal.setAttribute("aria-hidden", "false");
+    if (editorWorkspace && !editorWorkspace.hidden) newSiteName.focus();
+    else if (editorPassword) editorPassword.focus();
+  }
+
+  function closeEditor() {
+    if (!editorModal) return;
+    editorModal.classList.remove("open");
+    editorModal.setAttribute("aria-hidden", "true");
+    if (editorAuthMessage) editorAuthMessage.textContent = "";
+    if (editorSaveMessage) editorSaveMessage.textContent = "";
+    setSyncMessage("添加或删除后会自动同步到 GitHub。");
+  }
+
+  if (editEntry) editEntry.addEventListener("click", openEditor);
+  if (editorClose) editorClose.addEventListener("click", closeEditor);
+  if (editorModal) {
+    editorModal.addEventListener("click", function (e) {
+      if (e.target === editorModal) closeEditor();
+    });
+  }
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && editorModal && editorModal.classList.contains("open")) closeEditor();
+  });
+
+  if (editorAuth) {
+    editorAuth.addEventListener("submit", function (e) {
+      e.preventDefault();
+      if (!editorPassword || editorPassword.value !== EDIT_PASSWORD) {
+        if (editorAuthMessage) editorAuthMessage.textContent = "密码错误";
+        return;
+      }
+      editorAuth.hidden = true;
+      editorWorkspace.hidden = false;
+      if (editorAuthMessage) editorAuthMessage.textContent = "";
+      renderCategoryOptions();
+      renderCustomSiteList();
+      newSiteName.focus();
+    });
+  }
+
+  if (siteEditorForm) {
+    siteEditorForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      var site = {
+        id: "site-" + Date.now().toString(36) + "-" + Math.random().toString(36).slice(2, 8),
+        name: newSiteName.value.trim(),
+        url: normalizeUrl(newSiteUrl.value),
+        category: newSiteCategory.value.trim(),
+        icon: newSiteIcon.value.trim(),
+      };
+
+      if (!site.name || !site.url || !site.category) {
+        editorSaveMessage.textContent = "请填写名称、地址和分类";
+        return;
+      }
+
+      try {
+        new URL(site.url);
+      } catch (err) {
+        editorSaveMessage.textContent = "网址格式不正确";
+        return;
+      }
+
+      customSites.push(site);
+      setCustomSites(customSites);
+      refreshSites();
+      siteEditorForm.reset();
+      editorSaveMessage.textContent = "已添加";
+      syncSitesToApi("添加网站：" + site.name);
+      newSiteName.focus();
+    });
+  }
+
+  searchInput.addEventListener("input", renderSuggestions);
+  searchInput.addEventListener("focus", renderSuggestions);
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".search-wrap") && siteSuggestions) siteSuggestions.classList.remove("visible");
+  });
+
   searchForm.addEventListener("submit", function (e) {
     e.preventDefault();
     var q = searchInput.value.trim();
     if (!q) return;
+
+    var firstMatch = getSiteMatches(q)[0];
+    if (firstMatch) {
+      window.open(firstMatch.url, "_blank", "noopener");
+      return;
+    }
 
     if (/^https?:\/\//i.test(q)) {
       window.open(q, "_blank", "noopener");
@@ -276,19 +643,13 @@
   var themeToggle = document.getElementById("themeToggle");
 
   function applyTheme(theme) {
-    if (theme === "dark") {
-      document.documentElement.setAttribute("data-theme", "dark");
-    } else {
-      document.documentElement.removeAttribute("data-theme");
-    }
+    if (theme === "dark") document.documentElement.setAttribute("data-theme", "dark");
+    else document.documentElement.removeAttribute("data-theme");
   }
 
   var savedTheme = localStorage.getItem("nav-theme");
-  if (savedTheme) {
-    applyTheme(savedTheme);
-  } else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    applyTheme("dark");
-  }
+  if (savedTheme) applyTheme(savedTheme);
+  else if (window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches) applyTheme("dark");
 
   themeToggle.addEventListener("click", function () {
     var isDark = document.documentElement.getAttribute("data-theme") === "dark";
@@ -306,10 +667,7 @@
 
   function updateClock() {
     var now = new Date();
-    var hh = pad(now.getHours());
-    var mm = pad(now.getMinutes());
-    var timeStr = hh + ":" + mm;
-
+    var timeStr = pad(now.getHours()) + ":" + pad(now.getMinutes());
     clockEl.textContent = timeStr;
     clockDateEl.textContent =
       now.getFullYear() + "年" + (now.getMonth() + 1) + "月" + now.getDate() + "日 · " + weekDays[now.getDay()];
@@ -324,12 +682,36 @@
     greetingEl.textContent = greet;
   }
 
+  function loadRemoteCustomSites() {
+    return readSitesFromApi()
+      .then(function (sites) {
+        setCustomSites(sites);
+        setSyncMessage("已连接云端同步");
+      })
+      .catch(function () {
+        return fetch("custom-sites.json?ts=" + Date.now())
+          .then(function (res) {
+            if (!res.ok) throw new Error("no remote custom sites");
+            return res.json();
+          })
+          .then(function (sites) {
+            setCustomSites(sites);
+            setSyncMessage("已读取静态网站列表");
+          })
+          .catch(function () {
+            setCustomSites(getStoredCustomSites());
+            setSyncMessage("云端接口未连接，当前使用本机保存");
+          });
+      });
+  }
+
   initBackground();
   initWeather();
+  customSites = getStoredCustomSites();
   updateClock();
   setInterval(updateClock, 1000);
-  renderSiteMenu();
   renderEngines();
+  loadRemoteCustomSites().then(refreshSites);
 
   if (window.matchMedia("(min-width: 768px)").matches) {
     searchInput.focus();

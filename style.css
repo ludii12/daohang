@@ -350,6 +350,82 @@ button, input { font: inherit; }
   gap: 12px;
 }
 
+.site-suggestions {
+  width: 100%;
+  display: none;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.site-suggestions.visible {
+  display: grid;
+}
+
+.suggestion-item {
+  min-width: 0;
+  min-height: 44px;
+  display: grid;
+  grid-template-columns: 30px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 9px;
+  padding: 7px 10px;
+  border: 1px solid var(--surface-border);
+  border-radius: 16px;
+  color: var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  transition: transform 0.2s, background 0.2s;
+}
+
+.suggestion-item:hover {
+  background: var(--surface-panel);
+  transform: translateY(-1px);
+}
+
+.suggestion-icon {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-radius: 9px;
+  color: #fff;
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
+.suggestion-icon.has-image {
+  background: transparent !important;
+}
+
+.suggestion-icon img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.suggestion-text {
+  min-width: 0;
+  overflow: hidden;
+  font-size: 0.9rem;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.suggestion-meta {
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  white-space: nowrap;
+}
+
 .search-form {
   position: relative;
   width: 100%;
@@ -415,6 +491,220 @@ button, input { font: inherit; }
   color: #fff;
   background: var(--accent);
   border-color: var(--accent);
+}
+
+.edit-entry {
+  position: fixed;
+  right: 20px;
+  bottom: max(18px, env(safe-area-inset-bottom));
+  z-index: 24;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--surface-border);
+  border-radius: 50%;
+  color: var(--text-color);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+  cursor: pointer;
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  transition: color 0.2s, transform 0.2s, background 0.2s;
+}
+
+.edit-entry:hover {
+  color: var(--accent);
+  background: var(--surface-panel);
+  transform: translateY(-2px);
+}
+
+.editor-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: none;
+  place-items: center;
+  padding: 20px;
+  background: rgba(10, 12, 18, 0.26);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.editor-modal.open {
+  display: grid;
+}
+
+.editor-panel {
+  position: relative;
+  width: min(560px, 100%);
+  padding: 22px;
+  border: 1px solid var(--surface-border);
+  border-radius: 24px;
+  color: var(--text-color);
+  background: var(--surface-panel);
+  box-shadow: var(--shadow);
+  backdrop-filter: blur(26px) saturate(160%);
+  -webkit-backdrop-filter: blur(26px) saturate(160%);
+}
+
+.editor-panel h2 {
+  margin-bottom: 18px;
+  font-size: 1.1rem;
+  letter-spacing: 0;
+}
+
+.editor-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 34px;
+  height: 34px;
+  border: 1px solid var(--surface-border);
+  border-radius: 50%;
+  color: var(--text-secondary);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.editor-auth,
+.site-editor-form,
+.editor-workspace {
+  display: grid;
+  gap: 12px;
+}
+
+.editor-auth[hidden],
+.site-editor-form[hidden],
+.editor-workspace[hidden] {
+  display: none;
+}
+
+.editor-auth label,
+.site-editor-form label {
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  font-weight: 650;
+}
+
+.editor-auth input,
+.site-editor-form input,
+.sync-panel input {
+  width: 100%;
+  height: 44px;
+  padding: 0 12px;
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  outline: none;
+  color: var(--text-color);
+  background: var(--input-bg);
+}
+
+.editor-auth input:focus,
+.site-editor-form input:focus,
+.sync-panel input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.14);
+}
+
+.editor-row {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.editor-row button,
+.editor-submit,
+.sync-actions button,
+.custom-site-row button {
+  min-height: 44px;
+  padding: 0 16px;
+  border: 1px solid var(--accent);
+  border-radius: 14px;
+  color: #fff;
+  background: var(--accent);
+  cursor: pointer;
+}
+
+.editor-message {
+  min-height: 18px;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+}
+
+.sync-panel,
+.custom-site-list {
+  display: grid;
+  gap: 10px;
+  padding: 14px;
+  border: 1px solid var(--surface-border);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.3);
+}
+
+[data-theme="dark"] .sync-panel,
+[data-theme="dark"] .custom-site-list {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.sync-title {
+  color: var(--text-color);
+  font-size: 0.92rem;
+  font-weight: 750;
+}
+
+.sync-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sync-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.sync-actions button {
+  min-height: 38px;
+}
+
+.custom-site-items {
+  display: grid;
+  gap: 8px;
+}
+
+.custom-site-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 8px;
+  border: 1px solid var(--surface-border);
+  border-radius: 14px;
+  background: var(--surface);
+}
+
+.custom-site-name {
+  min-width: 0;
+  overflow: hidden;
+  color: var(--text-color);
+  font-size: 0.86rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.custom-site-row button {
+  min-height: 34px;
+  padding: 0 12px;
+  border-color: rgba(220, 38, 38, 0.5);
+  background: #dc2626;
+}
+
+.custom-empty {
+  color: var(--text-secondary);
+  font-size: 0.84rem;
 }
 
 @keyframes fadeDown {
@@ -491,6 +781,7 @@ button, input { font: inherit; }
 @media (max-width: 420px) {
   .center-stage { padding-left: 14px; padding-right: 14px; }
   .search-input { height: 54px; border-radius: 18px; }
+  .sync-grid { grid-template-columns: 1fr; }
 }
 
 @media (prefers-reduced-motion: reduce) {

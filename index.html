@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>ludii 的导航</title>
   <meta name="description" content="个人常用工具导航" />
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧭</text></svg>" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌘</text></svg>" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -44,12 +44,63 @@
           <svg class="search-icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <path fill="currentColor" d="M9.5 3a6.5 6.5 0 1 0 4.03 11.6l5.44 5.43 1.06-1.06-5.43-5.44A6.5 6.5 0 0 0 9.5 3Zm0 1.5a5 5 0 1 1 0 10 5 5 0 0 1 0-10Z"/>
           </svg>
-          <input id="searchInput" class="search-input" type="text" name="q" placeholder="搜索或输入网址" autocomplete="off" />
+          <input id="searchInput" class="search-input" type="text" name="q" placeholder="搜索网站名或输入网址" autocomplete="off" />
         </form>
+        <div class="site-suggestions" id="siteSuggestions" aria-label="站内匹配"></div>
         <div class="engine-switch" id="engineSwitch" aria-label="切换搜索引擎"></div>
       </div>
     </section>
   </main>
+
+  <button class="edit-entry" id="editEntry" type="button" aria-label="编辑网站" title="编辑网站">
+    <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><path fill="currentColor" d="M4 17.5V20h2.5L17.06 9.44l-2.5-2.5L4 17.5Zm14.85-9.85a.9.9 0 0 0 0-1.27l-1.23-1.23a.9.9 0 0 0-1.27 0l-.96.96 2.5 2.5.96-.96Z"/></svg>
+  </button>
+
+  <div class="editor-modal" id="editorModal" aria-hidden="true">
+    <div class="editor-panel" role="dialog" aria-modal="true" aria-labelledby="editorTitle">
+      <button class="editor-close" id="editorClose" type="button" aria-label="关闭">×</button>
+      <h2 id="editorTitle">网站编辑</h2>
+
+      <form class="editor-auth" id="editorAuth">
+        <label for="editorPassword">编辑密码</label>
+        <div class="editor-row">
+          <input id="editorPassword" type="password" autocomplete="current-password" placeholder="输入密码" />
+          <button type="submit">解锁</button>
+        </div>
+        <p class="editor-message" id="editorAuthMessage"></p>
+      </form>
+
+      <div class="editor-workspace" id="editorWorkspace" hidden>
+        <section class="sync-panel">
+          <div class="sync-title">云端同步</div>
+          <p class="editor-message" id="syncMessage">添加或删除后会自动同步到 GitHub。</p>
+        </section>
+
+        <form class="site-editor-form" id="siteEditorForm">
+          <label for="newSiteName">网站名称</label>
+          <input id="newSiteName" type="text" autocomplete="off" placeholder="例如 Notion" required />
+
+          <label for="newSiteUrl">网站地址</label>
+          <input id="newSiteUrl" type="text" autocomplete="off" placeholder="https://example.com" required />
+
+          <label for="newSiteCategory">分类</label>
+          <input id="newSiteCategory" type="text" list="categoryOptions" autocomplete="off" placeholder="例如 工具" required />
+          <datalist id="categoryOptions"></datalist>
+
+          <label for="newSiteIcon">图标地址</label>
+          <input id="newSiteIcon" type="text" autocomplete="off" placeholder="可留空，自动获取 favicon" />
+
+          <button class="editor-submit" type="submit">添加网站</button>
+          <p class="editor-message" id="editorSaveMessage"></p>
+        </form>
+
+        <section class="custom-site-list">
+          <div class="sync-title">可删除的网站</div>
+          <div id="customSiteList" class="custom-site-items"></div>
+        </section>
+      </div>
+    </div>
+  </div>
 
   <script src="config.js"></script>
   <script src="render.js"></script>
