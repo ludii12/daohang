@@ -1,7 +1,7 @@
 # 📁 backgrounds 目录
 
 把你的背景图片放到这个目录里，然后在 `render.js` 里用相对路径引用：
-大概在19行
+大概在39行
 
 ```js
 {"backgrounds/bg-circles-soft.png"}
