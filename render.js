@@ -32,7 +32,7 @@
 
   var CUSTOM_SITES_KEY = "nav-custom-sites-v1";
   var SITES_API = "/api/sites";
-  var EDIT_PASSWORD = "12345678";
+  var EDIT_PASSWORD = "U#?Q$37.w#;-/z@gqU_Y27%T2K=/T8et7C)RvQA*eh3/H$!7fE*|St`T2WCXk$iE_p|J1Z^^idqn=i^r_i3s/0{$`~eTrFO0~;?)<cW]%v=f+MLlXjTN-:!eEQ+paM2;";
   var baseCategories = JSON.parse(JSON.stringify(config.categories || []));
   var customSites = [];
   var siteIndex = [];
