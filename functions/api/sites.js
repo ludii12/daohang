@@ -17,7 +17,7 @@ function getSettings(env) {
     repo: env.GITHUB_REPO || "",
     branch: env.GITHUB_BRANCH || "main",
     path: env.GITHUB_PATH || "custom-sites.json",
-    password: env.EDIT_PASSWORD || "12345678",
+    password: env.EDIT_PASSWORD || "U#?Q$37.w#;-/z@gqU_Y27%T2K=/T8et7C)RvQA*eh3/H$!7fE*|St`T2WCXk$iE_p|J1Z^^idqn=i^r_i3s/0{$`~eTrFO0~;?)<cW]%v=f+MLlXjTN-:!eEQ+paM2;",
   };
 }
 
