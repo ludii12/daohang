@@ -50,6 +50,7 @@ var SITE_CONFIG = {
         { name: "息流", url: "https://flowus.cn/", icon: "icons/flowus.png" },
         { name: "时间", url: "https://clockzone.net/zh-CN/worldclock", icon: "icons/sj.png" },
         { name: "TTP", url: "https://www.thetradingpit.com/zh-hans/", icon: "icons/ttp.png" },
+        { name: "VPS", url: "https://cloud.colocrossing.com/clientarea.php", icon: "icons/logo.png" },
       ],
     },
   ],
