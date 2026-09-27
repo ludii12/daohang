@@ -15,13 +15,14 @@ var SITE_CONFIG = {
     {
       title: "AI",
       sites: [
+        { name: "MIMO", url: "https://platform.xiaomimimo.com/", icon: "icons/xiaomimimo.png" },
         { name: "Gemini", url: "https://gemini.google.com/app", icon: "icons/gemini-color.png" },
         { name: "GPT", url: "https://chatgpt.com", icon: "icons/openai.png" },
         { name: "Claude", url: "https://claude.ai", icon: "icons/claude-color.png" },
-        { name: "DeepSeek", url: "https://chat.deepseek.com", icon: "icons/deepseek-color.png" },
-        { name: "GLM", url: "https://chat.z.ai", icon: "icons/zai.png" },
+        { name: "DeepSeek", url: "https://platform.deepseek.com/", icon: "icons/deepseek-color.png" },
+        { name: "GLM", url: "https://bigmodel.cn/", icon: "icons/zai.png" },
         { name: "MiniMax", url: "https://www.minimax.io/", icon: "icons/minimax-color.png" },
-        { name: "Kimi", url: "https://www.kimi.com/", icon: "icons/kimi.png" },
+        { name: "Kimi", url: "https://https://platform.kimi.com/", icon: "icons/kimi.png" },
         { name: "Agnes", url: "https://agnes-ai.com/", icon: "icons/agnes.png" },
         { name: "千问", url: "https://chat.qwen.ai", icon: "icons/qwen-color.png" },
       ],
