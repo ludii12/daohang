@@ -10,6 +10,7 @@ var SITE_CONFIG = {
         { name: "计算器", url: "https://jsq.ll.oo.ludii.qzz.io", icon: "icons/jsq.png" },
         { name: "白噪音", url: "https://bzy.ll.oo.ludii.qzz.io", icon: "icons/bzy.png" },
         { name: "翻译", url: "https://fanyi.baidu.com", icon: "icons/baidu-color.png" },
+        { name: "温度计", url: "https://wdj.ll.oo.ludii.qzz.io", icon: "icons/wdj.png" },
       ],
     },
     {
