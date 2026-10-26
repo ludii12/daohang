@@ -3,12 +3,12 @@ var SITE_CONFIG = {
     {
       title: "个人网站",
       sites: [
-        { name: "奶娃", url: "https://nw.bifang.shop", icon: "icons/nw.png" },
-        { name: "视频下载", url: "https://sp.bifang.shop", icon: "icons/xiaziasp.png" },
-        { name: "随机刷视频", url: "https://sjl.bifang.shop", icon: "icons/ssp.png" },
-        { name: "日记", url: "https://rj.bifang.shop", icon: "icons/rj.png" },
-        { name: "计算器", url: "https://jsq.bifang.shop", icon: "icons/jsq.png" },
-        { name: "白噪音", url: "https://bzy.bifang.shop", icon: "icons/bzy.png" },
+        { name: "奶娃", url: "https://nw.ll.oo.ludii.qzz.io", icon: "icons/nw.png" },
+        { name: "视频下载", url: "https://sp.ll.oo.ludii.qzz.io", icon: "icons/xiaziasp.png" },
+        { name: "随机刷视频", url: "https://jsl.ll.oo.ludii.qzz.io", icon: "icons/ssp.png" },
+        { name: "日记", url: "https://rj.ll.oo.ludii.qzz.io", icon: "icons/rj.png" },
+        { name: "计算器", url: "https://jsq.ll.oo.ludii.qzz.io", icon: "icons/jsq.png" },
+        { name: "白噪音", url: "https://bzy.ll.oo.ludii.qzz.io", icon: "icons/bzy.png" },
         { name: "翻译", url: "https://fanyi.baidu.com", icon: "icons/baidu-color.png" },
       ],
     },
